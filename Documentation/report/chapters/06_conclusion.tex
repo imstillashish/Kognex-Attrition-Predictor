@@ -1,0 +1,26 @@
+\chapter{Conclusion and Future Scope}
+
+\section{Project Conclusion}
+The Kognex project successfully demonstrates the immense potential of machine learning in transforming human resource management from a reactive, intuition-based discipline into a proactive, data-driven science. By framing employee attrition as a binary classification problem, we were able to systematically mine the IBM HR Analytics dataset for predictive indicators that precede an employee's decision to resign.
+
+The methodology adhered to rigorous data science standards, navigating the challenges of a highly imbalanced dataset through the targeted application of the SMOTE algorithm. This critical preprocessing step ensured that our models did not simply learn to predict the majority class, but genuinely learned the subtle markers of flight risk.
+
+The comparative analysis of model architectures revealed that while linear models like Logistic Regression offer baseline interpretability, they are insufficient for capturing the complex, non-linear realities of human behavior. The ensemble approach, specifically XGBoost, proved to be the champion model. By optimizing for F1-Score and ROC-AUC rather than misleading raw accuracy, the XGBoost engine demonstrated a robust ability to balance precision and recall—identifying true flight risks while minimizing false alarms that would waste HR resources.
+
+Finally, the project bridged the gap between analytical theory and operational reality by deploying the model via a Streamlit web application. The bespoke "midnight terminal" aesthetic elevates the user experience, providing HR executives with an intuitive, professional, and highly actionable tool. Kognex successfully fulfills the requirements of Capstone Project 4, delivering an end-to-end predictive retention engine that adds tangible business value.
+
+\section{Limitations of the Current Model}
+While successful, the current iteration of Kognex operates within certain limitations:
+\begin{itemize}
+    \item \textbf{Synthetic Data Constraints:} The IBM HR Analytics dataset, while structurally realistic, is ultimately synthetic. Real-world corporate data is rarely as clean (devoid of NaNs) and often contains latent biases that a synthetic dataset does not perfectly replicate.
+    \item \textbf{Static Nature of Data:} The current model relies on a snapshot of data. Employee sentiment and circumstances are dynamic. A one-time survey response regarding 'Job Satisfaction' may become obsolete within months, yet the model relies on it as a static truth.
+    \item \textbf{Limited Feature Scope:} The dataset lacks highly granular performance metrics, peer review sentiment analysis, or external macroeconomic indicators (like industry-wide hiring booms) which heavily influence attrition.
+\end{itemize}
+
+\section{Future Scope and Enhancements}
+To transition Kognex from a Capstone prototype to an enterprise-grade HR solution, several avenues for future development are proposed:
+\begin{itemize}
+    \item \textbf{Integration with Live HRIS Systems:} The most critical enhancement is connecting the engine directly to a live Human Resource Information System (HRIS) via API. This would allow the model to score employees continuously based on real-time data updates, rather than relying on batch CSV uploads.
+    \item \textbf{Time-Series Analysis and NLP:} Future iterations should incorporate Natural Language Processing (NLP) to analyze sentiment in employee communications (e.g., Slack, emails, or open-ended survey responses) to gauge real-time morale. Furthermore, transitioning from static classification to time-series survival analysis could predict not just \textit{if} an employee will leave, but \textit{when}.
+    \item \textbf{Automated Retraining Pipelines:} As organizational dynamics change and new data is collected, model drift is inevitable (where the model's predictive power degrades over time). Future scope includes implementing automated MLOps pipelines that detect model drift and trigger automated retraining cycles using the latest data, ensuring the predictive engine remains accurate year over year.
+\end{itemize}

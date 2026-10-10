@@ -1,0 +1,61 @@
+\chapter{Methodology}
+
+The methodological approach for the Kognex project is designed to adhere strictly to the best practices of the machine learning lifecycle, mapping directly to the mandated phases of the Capstone Project rubric. This chapter details the data acquisition, exploratory analysis, preprocessing, and balancing techniques utilized to prepare the raw data for algorithmic ingestion.
+
+\section{The Dataset}
+The foundational data for this project is derived from the renowned IBM HR Analytics Employee Attrition \& Performance dataset. This dataset is widely recognized within the data science community as a robust, albeit synthetic, representation of corporate HR data. It comprises 1,470 discrete employee records, with each row representing an individual employee and capturing 35 distinct attributes (columns). 
+
+The dataset is remarkably clean, containing no missing values (NaNs), which allows the methodology to bypass extensive imputation processes and focus directly on feature engineering and model tuning. The attributes span a wide spectrum of the employee experience, categorized broadly into:
+\begin{itemize}
+    \item \textbf{Demographic Data:} Age, Gender, Marital Status, Distance from Home.
+    \item \textbf{Professional Data:} Department, Job Role, Job Level, Education Field.
+    \item \textbf{Compensation Data:} Monthly Income, Percent Salary Hike, Stock Option Level.
+    \item \textbf{Historical/Tenure Data:} Total Working Years, Years at Company, Years in Current Role, Years Since Last Promotion.
+    \item \textbf{Psychological/Survey Data:} Job Satisfaction, Environment Satisfaction, Work-Life Balance, Relationship Satisfaction.
+\end{itemize}
+The target variable for our binary classification task is \texttt{Attrition}, a categorical feature indicating whether the employee has left the organization ('Yes') or remained ('No'). The dataset exhibits a significant class imbalance, with the 'No' class representing approximately 84\% of the observations and the 'Yes' class comprising only 16\%.
+
+\section{Exploratory Data Analysis (EDA)}
+Prior to manipulating the data for machine learning, Exploratory Data Analysis (EDA) was conducted to uncover underlying patterns, test initial hypotheses, and understand the univariate and bivariate distributions of the features relative to the target variable.
+
+The EDA phase prioritized cross-tabulations and visual analyses (utilizing libraries such as \texttt{matplotlib} and \texttt{seaborn}) to identify the features showing the clearest separation between retained and attrited employees. Key investigations included:
+\begin{itemize}
+    \item \textbf{Attrition vs. OverTime:} Analyzing whether employees working consistent overtime exhibit a higher propensity to leave due to burnout.
+    \item \textbf{Attrition vs. Job Satisfaction:} Validating the intuitive hypothesis that lower satisfaction survey scores correlate with higher attrition rates.
+    \item \textbf{Attrition vs. Monthly Income:} Examining the distribution of salaries among those who left versus those who stayed, particularly across lower job levels.
+    \item \textbf{Attrition vs. Years at Company:} Identifying critical tenure milestones (e.g., the 1-year or 3-year mark) where attrition spikes, indicating potential issues in onboarding or mid-term career progression.
+\end{itemize}
+These initial visual insights not only informed the subsequent feature engineering phase but also provided the necessary context to interpret the final model's behavior and feature importance scores.
+
+\section{Data Preprocessing}
+Machine learning algorithms, particularly linear models, require data to be in a specific, mathematical format. The preprocessing pipeline was constructed to transform the raw, human-readable HR data into a machine-optimized tensor.
+
+\subsection{Feature Elimination}
+The first step in preprocessing involved pruning the dataset of noise and zero-variance features. Columns that offer no predictive value can confuse certain algorithms and needlessly increase computational overhead.
+\begin{itemize}
+    \item \texttt{EmployeeCount} and \texttt{StandardHours} were dropped as they contained a single constant value across all 1,470 rows.
+    \item \texttt{Over18} was dropped as all employees in the dataset were adults, offering no variance.
+    \item \texttt{EmployeeNumber} was dropped as it is a unique identifier assigned arbitrarily and holds no intrinsic relationship to an employee's likelihood of leaving.
+\end{itemize}
+
+\subsection{Encoding Categorical Variables}
+Machine learning models cannot natively process text strings; they require numerical inputs. Categorical variables were therefore transformed using appropriate encoding strategies based on their nature:
+\begin{itemize}
+    \item \textbf{Ordinal Encoding:} Features with an inherent rank or order, such as \texttt{OverTime} ('Yes' $>$ 'No') or \texttt{BusinessTravel} ('Non-Travel' $<$ 'Travel\_Rarely' $<$ 'Travel\_Frequently'), were encoded using ordinal mapping, preserving their mathematical hierarchy.
+    \item \textbf{One-Hot Encoding (OHE):} Nominal categorical variables lacking an inherent order, such as \texttt{Department}, \texttt{JobRole}, \texttt{MaritalStatus}, and \texttt{EducationField}, were transformed using One-Hot Encoding. This process creates a new binary column for each unique category within the feature, ensuring the algorithm does not falsely assume a mathematical relationship (e.g., assuming 'Sales' is mathematically greater than 'Human Resources').
+\end{itemize}
+The target variable, \texttt{Attrition}, was converted into a simple binary integer format, where 'Yes' mapped to 1 and 'No' mapped to 0.
+
+\subsection{Feature Scaling}
+While tree-based models (Random Forest, XGBoost) are inherently invariant to the scale of features, linear algorithms like Logistic Regression are highly sensitive to it. Features with larger numerical ranges (like \texttt{MonthlyIncome}) can disproportionately dominate the loss function during gradient descent, overwhelming features with smaller ranges (like \texttt{JobSatisfaction}). 
+
+To ensure the Logistic Regression baseline model performed optimally, feature scaling was applied. We utilized Standardization (Z-score normalization), transforming the numerical features such that they exhibit a mean of zero and a standard deviation of one. This ensures that the Logistic Regression model weights the features based on their true predictive power rather than their arbitrary numerical scale.
+
+\section{Addressing the Imbalance Problem}
+As identified during the dataset overview, the roughly 1:6 ratio of attrited to retained employees presents a critical challenge known as the class imbalance problem.
+
+\subsection{The Mechanics of SMOTE}
+To mitigate this, the Synthetic Minority Over-sampling Technique (SMOTE) was integrated into the pipeline. SMOTE operates by selecting a minority class instance (an employee who left) and finding its $k$ nearest minority class neighbors in the multi-dimensional feature space. It then generates synthetic instances along the line segments joining the selected instance and its neighbors. This effectively forces the decision boundary of the machine learning model to become more generalized and robust, pulling it away from the dense majority class cluster.
+
+\subsection{Implementation Constraints}
+Crucially, SMOTE must be applied \textit{only} to the training subset of the data. The data was first split into training and testing sets (typically using an 80/20 ratio). SMOTE was then applied exclusively to the training set to artificially balance the classes. The testing set remained completely untouched, preserving its original, imbalanced distribution. This strict segregation is vital; evaluating a model on synthetic data provides a dangerously optimistic and entirely false assessment of its performance in the real world. By evaluating on the pristine test set, we ensure the reported metrics accurately reflect how the model will perform when deployed in a live HR environment.
