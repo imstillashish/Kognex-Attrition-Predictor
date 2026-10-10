@@ -12,6 +12,8 @@ import { SplitText } from './components/reactbits/SplitText';
 import './index.css';
 import { Agentation } from 'agentation';
 
+import { Mascot } from 'page-mascot';
+
 function NavBar({ activeTab, setActiveTab }) {
   const tabs = [
     { id: 'single', label: 'Single Profile', icon: <Users size={16} /> },
@@ -97,38 +99,48 @@ function App() {
 
       <div className="page-container">
         {/* Compact Header */}
-        <header style={{ marginBottom: '40px', marginTop: '20px' }}>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginBottom: '12px',
-              fontSize: '11px',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              color: 'var(--color-signal-violet)'
-            }}
-          >
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-signal-violet)', boxShadow: '0 0 10px var(--color-signal-violet)' }}></span>
-            Predictive Retention Engine
-          </motion.div>
-          <SplitText 
-            text="Flight-Risk AI" 
-            style={{
-              fontSize: '42px',
-              fontWeight: 600,
-              letterSpacing: '-0.03em',
-              margin: 0,
-              background: 'linear-gradient(to right, #fff, #a0a0a0)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          />
+        <header style={{ marginBottom: '40px', marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '12px',
+                fontSize: '11px',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.12em',
+                color: 'var(--color-signal-violet)'
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-signal-violet)', boxShadow: '0 0 10px var(--color-signal-violet)' }}></span>
+              Predictive Retention Engine
+            </motion.div>
+            <SplitText 
+              text="Flight-Risk AI" 
+              style={{
+                fontSize: '42px',
+                fontWeight: 600,
+                letterSpacing: '-0.03em',
+                margin: 0,
+                background: 'linear-gradient(to right, #fff, #a0a0a0)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            />
+          </div>
+          <div style={{ marginTop: '-15px' }}>
+            <Mascot
+              directions="/mascots/owl-directions.webp"
+              reactions="/mascots/owl-reactions.webp"
+              size={110}
+              label="Analytics Owl Mascot"
+            />
+          </div>
         </header>
 
         {/* Main Content */}

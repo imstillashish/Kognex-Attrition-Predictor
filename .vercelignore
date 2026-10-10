@@ -1,0 +1,14 @@
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.vscode/
+.DS_Store
+MNNIT_Project.zip
+Notebook/
+Documentation/
+.tmp/
+.agents/
+.claude/
+*.ipynb
