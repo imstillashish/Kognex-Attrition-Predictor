@@ -49,7 +49,7 @@ export function BatchPredictor() {
         try {
           const validData = results.data.filter(row => Object.keys(row).length > 0);
 
-          const response = await fetch('http://localhost:8000/predict_batch', {
+          const response = await fetch('/api/predict_batch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(validData)

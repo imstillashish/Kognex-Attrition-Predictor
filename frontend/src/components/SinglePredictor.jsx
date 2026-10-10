@@ -42,7 +42,7 @@ export function SinglePredictor() {
     setSimulations(null);
 
     try {
-      const response = await fetch('http://localhost:8000/predict', {
+      const response = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -72,7 +72,7 @@ export function SinglePredictor() {
     try {
       const results = await Promise.all(simActions.map(async (sim) => {
         const simData = { ...baseData, ...sim.patch };
-        const res = await fetch('http://localhost:8000/predict', {
+        const res = await fetch('/api/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(simData)

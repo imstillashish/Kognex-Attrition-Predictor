@@ -9,7 +9,7 @@ export function AnalyticsDashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/dataset_stats')
+    fetch('/api/dataset_stats')
       .then(res => res.json())
       .then(data => {
         setStats(data);

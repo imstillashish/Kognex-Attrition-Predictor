@@ -32,11 +32,11 @@ except Exception as e:
     features = []
     defaults = {}
 
-@app.get("/")
+@app.get("/api/")
 def read_root():
     return {"status": "running", "model_loaded": model is not None}
 
-@app.get("/dataset_stats")
+@app.get("/api/dataset_stats")
 def get_dataset_stats():
     try:
         data_path = os.path.join(os.path.dirname(__file__), '../Dataset/dataset.csv')
@@ -59,7 +59,7 @@ def get_dataset_stats():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/predict")
+@app.post("/api/predict")
 def predict(data: dict):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded")
@@ -104,7 +104,7 @@ def predict(data: dict):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.post("/predict_batch")
+@app.post("/api/predict_batch")
 def predict_batch(data_list: List[dict]):
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded")
