@@ -36,13 +36,14 @@ function NavBar({ activeTab, setActiveTab }) {
           width: '32px',
           height: '32px',
           borderRadius: '8px',
-          background: 'var(--color-signal-violet)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'hidden',
+          background: 'rgba(175, 80, 255, 0.2)',
           boxShadow: '0 4px 12px rgba(175, 80, 255, 0.3)'
         }}>
-          <Cpu size={18} color="white" />
+          <img src="/logo.png" alt="Kognex Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         Kognex
       </div>
