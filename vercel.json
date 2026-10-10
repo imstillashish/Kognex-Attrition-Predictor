@@ -14,7 +14,7 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "Backend/api.py" },
-    { "src": "^/(.*\\.(js|css|png|jpg|svg|ico|csv))$", "dest": "frontend/$1" },
+    { "src": "^/(.*\\.(js|css|png|jpg|jpeg|svg|ico|csv|webp|woff|woff2|ttf|eot|mp4|webm))$", "dest": "frontend/$1" },
     { "src": "/(.*)", "dest": "frontend/index.html" }
   ]
 }
