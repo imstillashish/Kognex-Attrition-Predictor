@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, ComposedChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { UnicodeAnimation } from './UnicodeAnimation';
+import { DecryptedText } from './reactbits/DecryptedText';
 
 export function AnalyticsDashboard() {
   const [stats, setStats] = useState(null);
@@ -64,19 +65,27 @@ export function AnalyticsDashboard() {
       {/* Compact Stats Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
         <div style={{ padding: '16px', background: 'rgba(247, 249, 250, 0.03)', borderRadius: '12px', border: 'var(--hairline-divider)', textAlign: 'center' }}>
-          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)' }}>{totalEmployees}</div>
+          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)' }}>
+            <DecryptedText text={String(totalEmployees)} animateOn="view" />
+          </div>
           <div style={{ fontSize: '11px', color: 'var(--color-steel)', textTransform: 'uppercase' }}>Employees</div>
         </div>
         <div style={{ padding: '16px', background: 'rgba(175, 80, 255, 0.05)', borderRadius: '12px', border: '1px solid rgba(175, 80, 255, 0.2)', textAlign: 'center' }}>
-          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)', color: 'var(--color-signal-violet)' }}>{attritionRate}%</div>
+          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)', color: 'var(--color-signal-violet)' }}>
+            <DecryptedText text={`${attritionRate}%`} animateOn="view" />
+          </div>
           <div style={{ fontSize: '11px', color: 'var(--color-steel)', textTransform: 'uppercase' }}>Attrition</div>
         </div>
         <div style={{ padding: '16px', background: 'rgba(255, 193, 7, 0.05)', borderRadius: '12px', border: '1px solid rgba(255, 193, 7, 0.2)', textAlign: 'center' }}>
-          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)', color: '#FFC107' }}>{totalAttrition}</div>
+          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-whyte-inktrap-mono)', color: '#FFC107' }}>
+            <DecryptedText text={String(totalAttrition)} animateOn="view" />
+          </div>
           <div style={{ fontSize: '11px', color: 'var(--color-steel)', textTransform: 'uppercase' }}>Lost</div>
         </div>
         <div style={{ padding: '16px', background: 'rgba(247, 249, 250, 0.03)', borderRadius: '12px', border: 'var(--hairline-divider)', textAlign: 'center' }}>
-          <div style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-whyte-inktrap-mono)' }}>{worstDepartment?.name || 'N/A'}</div>
+          <div style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-whyte-inktrap-mono)' }}>
+            {worstDepartment?.name || 'N/A'}
+          </div>
           <div style={{ fontSize: '11px', color: 'var(--color-steel)', textTransform: 'uppercase' }}>Highest Risk</div>
         </div>
       </div>

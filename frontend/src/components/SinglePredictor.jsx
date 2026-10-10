@@ -5,6 +5,7 @@ import { WarningDiamond } from 'pixelarticons/react/WarningDiamond';
 import { Check } from 'pixelarticons/react/Check';
 import { SegmentedControl } from './SegmentedControl';
 import { UnicodeAnimation } from './UnicodeAnimation';
+import { SpotlightCard } from './reactbits/SpotlightCard';
 
 const PRESETS = {
   high: { Age: 22, OverTime_Yes: 1, DistanceFromHome: 40, JobSatisfaction: 1, EnvironmentSatisfaction: 1, WorkLifeBalance: 1, MonthlyIncome: 1500, TotalWorkingYears: 1, YearsAtCompany: 1 },
@@ -208,12 +209,15 @@ export function SinglePredictor() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className={result.attrition === 'Yes' ? 'card-violet-bloom' : 'card'}
-              style={{
-                padding: '32px',
-                border: result.attrition !== 'Yes' ? 'var(--hairline-divider)' : 'none'
-              }}
             >
+              <SpotlightCard 
+                className={result.attrition === 'Yes' ? 'card-violet-bloom' : 'card'}
+                spotlightColor={result.attrition === 'Yes' ? 'rgba(175, 80, 255, 0.25)' : 'rgba(76, 175, 80, 0.25)'}
+                style={{
+                  padding: '32px',
+                  border: result.attrition !== 'Yes' ? 'var(--hairline-divider)' : '1px solid rgba(175, 80, 255, 0.3)'
+                }}
+              >
               {/* Risk Header */}
               <div style={{ textAlign: 'center', marginBottom: '24px' }}>
                 <div style={{
@@ -323,6 +327,7 @@ export function SinglePredictor() {
                   </div>
                 </div>
               )}
+              </SpotlightCard>
             </motion.div>
           ) : (
             <motion.div
